@@ -10,7 +10,9 @@ import {
 import { UserRepository } from './user.repository';
 import { CreateUserDTO } from './dto/CreateUser.dto';
 import { UpdateUserDTO } from './dto/UpdateUser.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User')
 @Controller('/users')
 export class UserController {
   constructor(private userRepository: UserRepository) {}

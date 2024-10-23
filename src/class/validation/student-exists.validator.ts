@@ -9,9 +9,9 @@ import {
 import { UserRepository } from '../../user/user.repository';
 
 @Injectable()
-@ValidatorConstraint({async: true})
+@ValidatorConstraint({ async: true })
 export class UserExistsValidator implements ValidatorConstraintInterface {
-  constructor(private userRepository: UserRepository){}
+  constructor(private userRepository: UserRepository) {}
 
   async validate(value: any): Promise<boolean> {
     const user = await this.userRepository.findById(value);
@@ -25,13 +25,13 @@ export class UserExistsValidator implements ValidatorConstraintInterface {
 }
 
 export const UserExists = (validationOptions?: ValidationOptions) => {
-  return(object: Object, property: string) => {
+  return (object: object, property: string) => {
     registerDecorator({
       target: object.constructor,
       propertyName: property,
       options: validationOptions,
       constraints: [],
       validator: UserExistsValidator,
-    })
-  }
-}
+    });
+  };
+};

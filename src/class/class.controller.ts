@@ -10,8 +10,10 @@ import {
 import { ClassRepository } from './class.repository';
 import { CreateClassDTO } from './dto/CreateClass.dto';
 import { UpdateClassDTO } from './dto/UpdateClass.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('/classes')
+@ApiTags('class')
+@Controller('/class')
 export class ClassController {
   constructor(private classRepository: ClassRepository) {}
 

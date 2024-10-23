@@ -10,8 +10,10 @@ import {
 import { BookRepository } from './book.repository';
 import { CreateBookDTO } from './dto/CreateBook.dto';
 import { UpdateBookDTO } from './dto/UpdateBook.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('/books')
+@ApiTags('Book')
+@Controller('/book')
 export class BookController {
   constructor(private bookRepository: BookRepository) {}
 
