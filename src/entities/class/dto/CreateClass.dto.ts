@@ -16,7 +16,7 @@ export class CreateClassDTO {
   @IsArray()
   @IsString({ each: true })
   @UserExists({ each: true })
-  studentIds: string[];
+  studentEmails: string[];
 
   @IsArray()
   @IsString({ each: true })

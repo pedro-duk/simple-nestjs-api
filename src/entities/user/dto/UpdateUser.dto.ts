@@ -1,12 +1,13 @@
 import {
   IsEmail,
-  IsIn,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
 import { UniqueEmail } from '../../../validators/unique-email.validator';
+import { EnumRoles } from 'src/enums/role.enum';
 
 export class UpdateUserDTO {
   @IsString()
@@ -24,7 +25,7 @@ export class UpdateUserDTO {
   @IsOptional()
   password: string;
 
-  @IsIn(['Aluno', 'Professor'])
+  @IsEnum(EnumRoles)
   @IsOptional()
   role: string;
 }

@@ -13,16 +13,16 @@ import { UpdateUserDTO } from './dto/UpdateUser.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('User')
-@Controller('/users')
+@Controller('/user')
 export class UserController {
   constructor(private userRepository: UserRepository) {}
 
   @Post()
   async createUser(@Body() userData: CreateUserDTO) {
-    this.userRepository.save(userData);
+    const user = await this.userRepository.save(userData);
 
     return {
-      user: userData,
+      user,
       message: 'User saved successfully',
     };
   }
@@ -37,9 +37,9 @@ export class UserController {
     };
   }
 
-  @Get('/:id')
-  async getUserById(@Param('id') id: string) {
-    const user = await this.userRepository.findById(id);
+  @Get('/:email')
+  async getUserByEmail(@Param('email') email: string) {
+    const user = await this.userRepository.findByEmail(email);
 
     return {
       user,

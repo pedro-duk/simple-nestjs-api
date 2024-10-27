@@ -20,7 +20,7 @@ export class UniqueEmailValidator implements ValidatorConstraintInterface {
   }
 
   defaultMessage(args: ValidationArguments) {
-    return `The email ${args.property} is already vinculated to an account`;
+    return `The email ${args.value} is already vinculated to an account`;
   }
 }
 

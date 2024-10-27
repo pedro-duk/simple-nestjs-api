@@ -22,7 +22,7 @@ export class BookNotRegisteredValidator
   }
 
   defaultMessage(args: ValidationArguments) {
-    return `There's already a book registered under the id ${args.value}`;
+    return `There's already a book registered under the internal id ${args.value}`;
   }
 }
 

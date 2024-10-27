@@ -14,7 +14,7 @@ export class UserExistsValidator implements ValidatorConstraintInterface {
   constructor(private userRepository: UserRepository) {}
 
   async validate(value: any): Promise<boolean> {
-    const user = await this.userRepository.findById(value);
+    const user = await this.userRepository.findByEmail(value);
 
     return !!user;
   }
