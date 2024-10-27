@@ -6,7 +6,7 @@ import {
   ValidatorConstraintInterface,
   registerDecorator,
 } from 'class-validator';
-import { UserRepository } from '../user.repository';
+import { UserRepository } from '../entities/user/user.repository';
 
 @Injectable()
 @ValidatorConstraint({ async: true })
@@ -25,7 +25,7 @@ export class UniqueEmailValidator implements ValidatorConstraintInterface {
 }
 
 export const UniqueEmail = (validationOptions?: ValidationOptions) => {
-  return (object: Object, property: string) => {
+  return (object: object, property: string) => {
     registerDecorator({
       target: object.constructor,
       propertyName: property,

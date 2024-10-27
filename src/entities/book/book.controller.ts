@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -19,10 +20,10 @@ export class BookController {
 
   @Post()
   async createBook(@Body() bookData: CreateBookDTO) {
-    this.bookRepository.save(bookData);
+    const book = await this.bookRepository.save(bookData);
 
     return {
-      book: bookData,
+      book,
       message: 'Book saved successfully',
     };
   }
@@ -37,9 +38,9 @@ export class BookController {
     };
   }
 
-  @Get('/:id')
-  async getBookById(@Param('id') id: string) {
-    const book = await this.bookRepository.findById(id);
+  @Get('/:internalId')
+  async getBookById(@Param('internalId') internalId: string) {
+    const book = await this.bookRepository.findByInternalId(internalId);
 
     return {
       book,
@@ -47,12 +48,16 @@ export class BookController {
     };
   }
 
-  @Patch('/:id')
+  @Patch('/:internalId')
   async updateBook(
-    @Param('id') id: string,
+    @Param('internalId') internalId: string,
     @Body() bookUpdateData: UpdateBookDTO,
   ) {
-    const book = await this.bookRepository.update(id, bookUpdateData);
+    const book = await this.bookRepository.update(internalId, bookUpdateData);
+
+    if (!book) {
+      throw new NotFoundException('Book was not found');
+    }
 
     return {
       updatedBook: book,
@@ -60,9 +65,9 @@ export class BookController {
     };
   }
 
-  @Delete('/:id')
-  async deleteBook(@Param('id') id: string) {
-    const book = await this.bookRepository.delete(id);
+  @Delete('/:internalId')
+  async deleteBook(@Param('internalId') internalId: string) {
+    const book = await this.bookRepository.delete(internalId);
 
     return {
       deletedBook: book,

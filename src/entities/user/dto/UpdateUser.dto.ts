@@ -6,7 +6,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { UniqueEmail } from '../validation/unique-email.validator';
+import { UniqueEmail } from '../../../validators/unique-email.validator';
 
 export class UpdateUserDTO {
   @IsString()

@@ -1,12 +1,13 @@
 import {
   IsArray,
-  IsIn,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
 } from 'class-validator';
-import { BookExists } from '../validation/book-exists.validator';
-import { UserExists } from '../validation/student-exists.validator';
+import { EnumGrades } from 'src/enums/grade.enum';
+import { BookExists } from 'src/validators/book-exists.validator';
+import { UserExists } from 'src/validators/user-exists.validator';
 
 export class UpdateClassDTO {
   @IsString()
@@ -16,7 +17,7 @@ export class UpdateClassDTO {
 
   @IsString()
   @IsNotEmpty()
-  @IsIn(['Ano 1', 'Ano 2', 'Ano 3'])
+  @IsEnum(EnumGrades)
   @IsOptional()
   grade: string;
 
@@ -30,5 +31,5 @@ export class UpdateClassDTO {
   @IsString({ each: true })
   @BookExists({ each: true })
   @IsOptional()
-  bookIds: string[];
+  bookInternalIds: string[];
 }

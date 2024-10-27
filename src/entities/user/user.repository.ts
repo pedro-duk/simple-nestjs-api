@@ -28,6 +28,6 @@ export class UserRepository {
   }
 
   async findAll() {
-    return await User.find({})
+    return await User.find({});
   }
 }

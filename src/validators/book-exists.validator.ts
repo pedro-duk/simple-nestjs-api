@@ -6,15 +6,15 @@ import {
   ValidatorConstraintInterface,
   registerDecorator,
 } from 'class-validator';
-import { BookRepository } from '../../book/book.repository';
+import { BookRepository } from '../entities/book/book.repository';
 
 @Injectable()
-@ValidatorConstraint({async: true})
+@ValidatorConstraint({ name: 'bookExists', async: true })
 export class BookExistsValidator implements ValidatorConstraintInterface {
-  constructor(private bookRepository: BookRepository){}
+  constructor(private bookRepository: BookRepository) {}
 
   async validate(value: any): Promise<boolean> {
-    const book = await this.bookRepository.findById(value);
+    const book = await this.bookRepository.findByInternalId(value);
 
     return !!book;
   }
@@ -25,13 +25,13 @@ export class BookExistsValidator implements ValidatorConstraintInterface {
 }
 
 export const BookExists = (validationOptions?: ValidationOptions) => {
-  return(object: Object, property: string) => {
+  return (object: object, property: string) => {
     registerDecorator({
       target: object.constructor,
       propertyName: property,
       options: validationOptions,
       constraints: [],
       validator: BookExistsValidator,
-    })
-  }
-}
+    });
+  };
+};

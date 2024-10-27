@@ -7,20 +7,22 @@ export class BookRepository {
   async save(bookData: CreateBookDTO) {
     const newBook = new Book(bookData);
     await newBook.save();
+
+    return newBook;
   }
 
-  async findById(bookId: string) {
-    return await Book.findById(bookId);
+  async findByInternalId(internalId: string) {
+    return await Book.findOne({ internalId });
   }
 
-  async update(bookId: string, bookUpdateData: Partial<IBook>) {
-    return await Book.findOneAndUpdate({ _id: bookId }, bookUpdateData, {
+  async update(internalId: string, bookUpdateData: Partial<IBook>) {
+    return await Book.findOneAndUpdate({ internalId }, bookUpdateData, {
       new: true,
     });
   }
 
-  async delete(bookId: string) {
-    return await Book.findByIdAndDelete(bookId);
+  async delete(internalId: string) {
+    return await Book.findOneAndDelete({ internalId });
   }
 
   async findAll() {
