@@ -42,6 +42,10 @@ export class BookController {
   async getBookById(@Param('internalId') internalId: string) {
     const book = await this.bookRepository.findByInternalId(internalId);
 
+    if (!book) {
+      throw new NotFoundException('Book was not found');
+    }
+
     return {
       book,
       message: 'Book found',
@@ -68,6 +72,10 @@ export class BookController {
   @Delete('/:internalId')
   async deleteBook(@Param('internalId') internalId: string) {
     const book = await this.bookRepository.delete(internalId);
+
+    if (!book) {
+      throw new NotFoundException('Book was not found');
+    }
 
     return {
       deletedBook: book,

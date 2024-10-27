@@ -20,7 +20,7 @@ export class UserExistsValidator implements ValidatorConstraintInterface {
   }
 
   defaultMessage(args: ValidationArguments) {
-    return `${args.value} is not an existing User Id`;
+    return `${args.value} contains nonexistent user emails`;
   }
 }
 

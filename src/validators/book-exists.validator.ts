@@ -20,7 +20,7 @@ export class BookExistsValidator implements ValidatorConstraintInterface {
   }
 
   defaultMessage(args: ValidationArguments) {
-    return `${args.value} is not an existing Book Id`;
+    return `${args.value} contains nonexistent Book Ids`;
   }
 }
 

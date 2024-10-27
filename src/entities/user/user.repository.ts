@@ -19,17 +19,20 @@ export class UserRepository {
     return await User.findOne({ email }, UserProjection.userBasicInfo()).exec();
   }
 
-  async update(userId: string, userUpdateData: Partial<IUser>) {
-    return await User.findOneAndUpdate({ _id: userId }, userUpdateData, {
+  async update(email: string, userUpdateData: Partial<IUser>) {
+    return await User.findOneAndUpdate({ email }, userUpdateData, {
       new: true,
       projection: UserProjection.userBasicInfo(),
     });
   }
 
-  async delete(userId: string) {
-    return await User.findByIdAndDelete(userId, {
-      projection: UserProjection.userBasicInfo(),
-    });
+  async delete(email: string) {
+    return await User.findOneAndDelete(
+      { email },
+      {
+        projection: UserProjection.userBasicInfo(),
+      },
+    );
   }
 
   async findAll() {

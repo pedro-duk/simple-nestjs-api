@@ -7,20 +7,22 @@ export class ClassRepository {
   async save(classData: CreateClassDTO) {
     const newClass = new Class(classData);
     await newClass.save();
+
+    return newClass;
   }
 
-  async findById(classId: string) {
-    return await Class.findById(classId);
+  async findByInternalId(internalId: string) {
+    return await Class.findOne({ internalId });
   }
 
-  async update(classId: string, classUpdateData: Partial<IClass>) {
-    return await Class.findOneAndUpdate({ _id: classId }, classUpdateData, {
+  async update(internalId: string, classUpdateData: Partial<IClass>) {
+    return await Class.findOneAndUpdate({ internalId }, classUpdateData, {
       new: true,
     });
   }
 
-  async delete(classId: string) {
-    return await Class.findByIdAndDelete(classId);
+  async delete(internalId: string) {
+    return await Class.findOneAndDelete({ internalId });
   }
 
   async findAll() {

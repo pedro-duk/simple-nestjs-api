@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -19,10 +20,10 @@ export class ClassController {
 
   @Post()
   async createClass(@Body() classData: CreateClassDTO) {
-    this.classRepository.save(classData);
+    const currentClass = await this.classRepository.save(classData);
 
     return {
-      class: classData,
+      class: currentClass,
       message: 'Class saved successfully',
     };
   }
@@ -37,9 +38,14 @@ export class ClassController {
     };
   }
 
-  @Get('/:id')
-  async getClassById(@Param('id') id: string) {
-    const currentClass = await this.classRepository.findById(id);
+  @Get('/:internalId')
+  async getClassById(@Param('internalId') internalId: string) {
+    const currentClass =
+      await this.classRepository.findByInternalId(internalId);
+
+    if (!currentClass) {
+      throw new NotFoundException('Class was not found');
+    }
 
     return {
       class: currentClass,
@@ -47,12 +53,19 @@ export class ClassController {
     };
   }
 
-  @Patch('/:id')
+  @Patch('/:internalId')
   async updateClass(
-    @Param('id') id: string,
+    @Param('internalId') internalId: string,
     @Body() classUpdateData: UpdateClassDTO,
   ) {
-    const currentClass = await this.classRepository.update(id, classUpdateData);
+    const currentClass = await this.classRepository.update(
+      internalId,
+      classUpdateData,
+    );
+
+    if (!currentClass) {
+      throw new NotFoundException('Class was not found');
+    }
 
     return {
       updatedClass: currentClass,
@@ -63,6 +76,10 @@ export class ClassController {
   @Delete('/:id')
   async deleteClass(@Param('id') id: string) {
     const currentClass = await this.classRepository.delete(id);
+
+    if (!currentClass) {
+      throw new NotFoundException('Class was not found');
+    }
 
     return {
       deletedClass: currentClass,

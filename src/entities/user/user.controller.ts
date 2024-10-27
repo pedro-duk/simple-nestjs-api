@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -41,18 +42,26 @@ export class UserController {
   async getUserByEmail(@Param('email') email: string) {
     const user = await this.userRepository.findByEmail(email);
 
+    if (!user) {
+      throw new NotFoundException('User was not found');
+    }
+
     return {
       user,
       message: 'User found',
     };
   }
 
-  @Patch('/:id')
+  @Patch('/:email')
   async updateUser(
-    @Param('id') id: string,
+    @Param('email') email: string,
     @Body() userUpdateData: UpdateUserDTO,
   ) {
-    const user = await this.userRepository.update(id, userUpdateData);
+    const user = await this.userRepository.update(email, userUpdateData);
+
+    if (!user) {
+      throw new NotFoundException('User was not found');
+    }
 
     return {
       updatedUser: user,
@@ -60,9 +69,13 @@ export class UserController {
     };
   }
 
-  @Delete('/:id')
-  async deleteUser(@Param('id') id: string) {
-    const user = await this.userRepository.delete(id);
+  @Delete('/:email')
+  async deleteUser(@Param('email') email: string) {
+    const user = await this.userRepository.delete(email);
+
+    if (!user) {
+      throw new NotFoundException('User was not found');
+    }
 
     return {
       deletedUser: user,

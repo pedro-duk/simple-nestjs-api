@@ -1,18 +1,20 @@
 import mongoose from 'mongoose';
 
 export interface IClass {
+  internalId: string;
   name: string;
   grade: string;
-  studentIds: string[];
-  bookIds: string[];
+  studentEmails: string[];
+  bookInternalIds: string[];
 }
 
 export const classSchema = new mongoose.Schema<IClass>(
   {
+    internalId: { type: String, required: true },
     name: { type: String, required: true },
     grade: { type: String, required: true },
-    studentIds: { type: [String], required: true },
-    bookIds: { type: [String], required: true },
+    studentEmails: { type: [String], required: true },
+    bookInternalIds: { type: [String], required: true },
   },
   { versionKey: false },
 );
