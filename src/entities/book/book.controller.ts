@@ -3,53 +3,39 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   Patch,
   Post,
 } from '@nestjs/common';
-import { BookRepository } from './book.repository';
-import { CreateBookDTO } from './dto/CreateBook.dto';
-import { UpdateBookDTO } from './dto/UpdateBook.dto';
+import { CreateBookDTO } from './dto/create-book.dto';
+import { UpdateBookDTO } from './dto/update-book.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { BookService } from './book.service';
 
 @ApiTags('Book')
 @Controller('/book')
 export class BookController {
-  constructor(private bookRepository: BookRepository) {}
+  constructor(private bookService: BookService) {}
 
   @Post()
   async createBook(@Body() bookData: CreateBookDTO) {
-    const book = await this.bookRepository.save(bookData);
+    const response = await this.bookService.createBook(bookData);
 
-    return {
-      book,
-      message: 'Book saved successfully',
-    };
+    return response;
   }
 
   @Get()
   async getAllBooks() {
-    const books = await this.bookRepository.findAll();
+    const response = await this.bookService.getAllBooks();
 
-    return {
-      books,
-      message: 'Books recovered',
-    };
+    return response;
   }
 
   @Get('/:internalId')
   async getBookById(@Param('internalId') internalId: string) {
-    const book = await this.bookRepository.findByInternalId(internalId);
+    const response = await this.bookService.getBookById(internalId);
 
-    if (!book) {
-      throw new NotFoundException('Book was not found');
-    }
-
-    return {
-      book,
-      message: 'Book found',
-    };
+    return response;
   }
 
   @Patch('/:internalId')
@@ -57,29 +43,18 @@ export class BookController {
     @Param('internalId') internalId: string,
     @Body() bookUpdateData: UpdateBookDTO,
   ) {
-    const book = await this.bookRepository.update(internalId, bookUpdateData);
+    const response = await this.bookService.updateBook(
+      internalId,
+      bookUpdateData,
+    );
 
-    if (!book) {
-      throw new NotFoundException('Book was not found');
-    }
-
-    return {
-      updatedBook: book,
-      message: 'Book has been updated',
-    };
+    return response;
   }
 
   @Delete('/:internalId')
   async deleteBook(@Param('internalId') internalId: string) {
-    const book = await this.bookRepository.delete(internalId);
+    const response = await this.bookService.deleteBook(internalId);
 
-    if (!book) {
-      throw new NotFoundException('Book was not found');
-    }
-
-    return {
-      deletedBook: book,
-      message: 'Book has been deleted',
-    };
+    return response;
   }
 }

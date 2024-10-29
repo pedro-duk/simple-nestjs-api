@@ -3,54 +3,39 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   Patch,
   Post,
 } from '@nestjs/common';
-import { ClassRepository } from './class.repository';
-import { CreateClassDTO } from './dto/CreateClass.dto';
-import { UpdateClassDTO } from './dto/UpdateClass.dto';
+import { CreateClassDTO } from './dto/create-class.dto';
+import { UpdateClassDTO } from './dto/update-class.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { ClassService } from './class.service';
 
 @ApiTags('class')
 @Controller('/class')
 export class ClassController {
-  constructor(private classRepository: ClassRepository) {}
+  constructor(private classService: ClassService) {}
 
   @Post()
   async createClass(@Body() classData: CreateClassDTO) {
-    const currentClass = await this.classRepository.save(classData);
+    const response = await this.classService.createClass(classData);
 
-    return {
-      class: currentClass,
-      message: 'Class saved successfully',
-    };
+    return response;
   }
 
   @Get()
   async getAllClasses() {
-    const classes = await this.classRepository.findAll();
+    const response = await this.classService.getAllClasses();
 
-    return {
-      classes,
-      message: 'Classes recovered',
-    };
+    return response;
   }
 
   @Get('/:internalId')
   async getClassById(@Param('internalId') internalId: string) {
-    const currentClass =
-      await this.classRepository.findByInternalId(internalId);
+    const response = await this.classService.getClassById(internalId);
 
-    if (!currentClass) {
-      throw new NotFoundException('Class was not found');
-    }
-
-    return {
-      class: currentClass,
-      message: 'Class found',
-    };
+    return response;
   }
 
   @Patch('/:internalId')
@@ -58,32 +43,18 @@ export class ClassController {
     @Param('internalId') internalId: string,
     @Body() classUpdateData: UpdateClassDTO,
   ) {
-    const currentClass = await this.classRepository.update(
+    const response = await this.classService.updateClass(
       internalId,
       classUpdateData,
     );
 
-    if (!currentClass) {
-      throw new NotFoundException('Class was not found');
-    }
-
-    return {
-      updatedClass: currentClass,
-      message: 'Class has been updated',
-    };
+    return response;
   }
 
   @Delete('/:id')
   async deleteClass(@Param('id') id: string) {
-    const currentClass = await this.classRepository.delete(id);
+    const response = await this.classService.deleteClass(id);
 
-    if (!currentClass) {
-      throw new NotFoundException('Class was not found');
-    }
-
-    return {
-      deletedClass: currentClass,
-      message: 'Class has been deleted',
-    };
+    return response;
   }
 }

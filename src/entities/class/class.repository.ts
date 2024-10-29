@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import Class, { IClass } from './class.entity';
-import { CreateClassDTO } from './dto/CreateClass.dto';
+import { CreateClassDTO } from './dto/create-class.dto';
 
 @Injectable()
 export class ClassRepository {

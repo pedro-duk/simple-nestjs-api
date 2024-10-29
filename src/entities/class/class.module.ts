@@ -6,16 +6,18 @@ import { UserExistsValidator } from 'src/validators/user-exists.validator';
 import { BookRepository } from 'src/entities/book/book.repository';
 import { UserRepository } from 'src/entities/user/user.repository';
 import { ClassNotRegisteredValidator } from 'src/validators/class-not-registered.validator';
+import { ClassService } from './class.service';
 
 @Module({
   controllers: [ClassController],
   providers: [
     ClassRepository,
+    UserRepository,
+    BookRepository,
     BookExistsValidator,
     UserExistsValidator,
     ClassNotRegisteredValidator,
-    UserRepository,
-    BookRepository,
+    ClassService,
   ],
 })
 export class ClassModule {}

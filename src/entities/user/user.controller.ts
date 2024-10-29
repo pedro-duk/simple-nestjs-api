@@ -3,53 +3,39 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   Patch,
   Post,
 } from '@nestjs/common';
-import { UserRepository } from './user.repository';
-import { CreateUserDTO } from './dto/CreateUser.dto';
-import { UpdateUserDTO } from './dto/UpdateUser.dto';
+import { CreateUserDTO } from './dto/create-user.dto';
+import { UpdateUserDTO } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { UserService } from './user.service';
 
 @ApiTags('User')
 @Controller('/user')
 export class UserController {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private userService: UserService) {}
 
   @Post()
   async createUser(@Body() userData: CreateUserDTO) {
-    const user = await this.userRepository.save(userData);
+    const response = await this.userService.createUser(userData);
 
-    return {
-      user,
-      message: 'User saved successfully',
-    };
+    return response;
   }
 
   @Get()
   async getAllUsers() {
-    const users = await this.userRepository.findAll();
+    const response = await this.userService.getAllUsers();
 
-    return {
-      users,
-      message: 'Users recovered',
-    };
+    return response;
   }
 
   @Get('/:email')
   async getUserByEmail(@Param('email') email: string) {
-    const user = await this.userRepository.findByEmail(email);
+    const response = await this.userService.getUserByEmail(email);
 
-    if (!user) {
-      throw new NotFoundException('User was not found');
-    }
-
-    return {
-      user,
-      message: 'User found',
-    };
+    return response;
   }
 
   @Patch('/:email')
@@ -57,29 +43,15 @@ export class UserController {
     @Param('email') email: string,
     @Body() userUpdateData: UpdateUserDTO,
   ) {
-    const user = await this.userRepository.update(email, userUpdateData);
+    const response = await this.userService.updateUser(email, userUpdateData);
 
-    if (!user) {
-      throw new NotFoundException('User was not found');
-    }
-
-    return {
-      updatedUser: user,
-      message: 'User has been updated',
-    };
+    return response;
   }
 
   @Delete('/:email')
   async deleteUser(@Param('email') email: string) {
-    const user = await this.userRepository.delete(email);
+    const response = await this.userService.deleteUser(email);
 
-    if (!user) {
-      throw new NotFoundException('User was not found');
-    }
-
-    return {
-      deletedUser: user,
-      message: 'User has been deleted',
-    };
+    return response;
   }
 }
