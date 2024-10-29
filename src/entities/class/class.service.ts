@@ -1,8 +1,9 @@
-import { NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ClassRepository } from './class.repository';
 import { CreateClassDTO } from './dto/create-class.dto';
 import { UpdateClassDTO } from './dto/update-class.dto';
 
+@Injectable()
 export class ClassService {
   constructor(private classRepository: ClassRepository) {}
 
