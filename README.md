@@ -1,10 +1,15 @@
-## Informações gerais
-* <b> Objetivo: </b> criação de um repositório de uma API Simples usando diversas funcionalidades do Nest.JS
+## General Info
 
-## Funcionalidades
-* Criação de Validadores personalizados com @ValidatorConstraint
+- <b> Objective: </b> Development of a Nest.JS API for a quick reference when building future projects and to showcase some useful Nest features.
 
+## Features
 
+- Custom Injectable Validators using the [class-validator package](https://github.com/typestack/class-validator);
+  - Able to do complex logic such as querying the database;
+  - Injected directly into the Data-Transfer object, providing readability and reusability.
+- Automated tests in Jest using [Nest-Provided Testing Modules](https://docs.nestjs.com/fundamentals/testing);
+  - Usage of [MongoDB Memory Server Package](https://github.com/typegoose/mongodb-memory-server) to create a MongoDB server in-memory.
+- Usage of [Nest's SwaggerModule](https://docs.nestjs.com/openapi/introduction) to automatically generate OpenAPI documentation.
 
 ## Project setup
 
@@ -20,9 +25,6 @@ $ npm run start
 
 # watch mode
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
 ## Run tests
@@ -30,9 +32,6 @@ $ npm run start:prod
 ```bash
 # unit tests
 $ npm run test
-
-# e2e tests
-$ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
