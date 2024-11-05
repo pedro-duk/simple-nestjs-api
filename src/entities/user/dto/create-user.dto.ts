@@ -6,7 +6,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { UniqueEmail } from '../../../validators/unique-email.validator';
-import { EnumRoles } from 'src/enums/role.enum';
+import { EnumRoles } from '../../../enums/role.enum';
 
 export class CreateUserDTO {
   @IsString()

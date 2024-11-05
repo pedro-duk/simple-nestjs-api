@@ -7,25 +7,25 @@ import {
   MinLength,
 } from 'class-validator';
 import { UniqueEmail } from '../../../validators/unique-email.validator';
-import { EnumRoles } from 'src/enums/role.enum';
+import { EnumRoles } from '../../../enums/role.enum';
 
 export class UpdateUserDTO {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  name: string;
+  name?: string;
 
   @IsEmail()
   @UniqueEmail()
   @IsOptional()
-  email: string;
+  email?: string;
 
   @IsString()
   @MinLength(6)
   @IsOptional()
-  password: string;
+  password?: string;
 
   @IsEnum(EnumRoles)
   @IsOptional()
-  role: string;
+  role?: string;
 }

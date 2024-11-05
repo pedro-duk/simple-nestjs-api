@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
-import { BookNotRegistered } from 'src/validators/book-not-registered.validator';
+import { BookNotRegistered } from '../../../validators/book-not-registered.validator';
 
 export class CreateBookDTO {
   @IsString()

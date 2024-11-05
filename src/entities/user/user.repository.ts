@@ -12,18 +12,22 @@ export class UserRepository {
     return await User.findOne(
       { email: userData.email },
       UserProjection.userBasicInfo(),
-    ).exec();
+    )
+      .lean()
+      .exec();
   }
 
   async findByEmail(email: string) {
-    return await User.findOne({ email }, UserProjection.userBasicInfo()).exec();
+    return await User.findOne({ email }, UserProjection.userBasicInfo())
+      .lean()
+      .exec();
   }
 
   async update(email: string, userUpdateData: Partial<IUser>) {
     return await User.findOneAndUpdate({ email }, userUpdateData, {
       new: true,
       projection: UserProjection.userBasicInfo(),
-    });
+    }).lean();
   }
 
   async delete(email: string) {
@@ -32,10 +36,10 @@ export class UserRepository {
       {
         projection: UserProjection.userBasicInfo(),
       },
-    );
+    ).lean();
   }
 
   async findAll() {
-    return await User.find({}, UserProjection.userBasicInfo());
+    return await User.find({}, UserProjection.userBasicInfo()).lean();
   }
 }

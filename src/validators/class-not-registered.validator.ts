@@ -6,7 +6,7 @@ import {
   ValidatorConstraintInterface,
   registerDecorator,
 } from 'class-validator';
-import { ClassRepository } from 'src/entities/class/class.repository';
+import { ClassRepository } from '../entities/class/class.repository';
 
 @Injectable()
 @ValidatorConstraint({ name: 'classNotRegistered', async: true })

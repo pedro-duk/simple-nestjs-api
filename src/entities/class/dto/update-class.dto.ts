@@ -5,9 +5,9 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { EnumGrades } from 'src/enums/grade.enum';
-import { BookExists } from 'src/validators/book-exists.validator';
-import { UserExists } from 'src/validators/user-exists.validator';
+import { EnumGrades } from '../../../enums/grade.enum';
+import { BookExists } from '../../../validators/book-exists.validator';
+import { UserExists } from '../../../validators/user-exists.validator';
 
 export class UpdateClassDTO {
   @IsString()
